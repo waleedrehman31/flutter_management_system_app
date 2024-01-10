@@ -3,13 +3,15 @@ import 'package:attandance_management_system/components/my_button.dart';
 import 'package:attandance_management_system/components/my_textfield.dart';
 
 class RegisterPage extends StatelessWidget {
-  RegisterPage({super.key});
+  RegisterPage({super.key, required this.onTap});
 
   // text editing controllers
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+
+  final void Function()? onTap;
 
   // sign user in method
   void registerStudent() {}
@@ -36,7 +38,7 @@ class RegisterPage extends StatelessWidget {
 
               // welcome back, you've been missed!
               Text(
-                'Register Student',
+                'Register Now',
                 style: TextStyle(
                   color: Colors.grey[700],
                   fontSize: 16,
@@ -104,24 +106,29 @@ class RegisterPage extends StatelessWidget {
 
               const SizedBox(height: 50),
 
-              // not a member? register now
+              const SizedBox(
+                height: 50,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Not a member?',
+                    'Already have an account?',
                     style: TextStyle(color: Colors.grey[700]),
                   ),
                   const SizedBox(width: 4),
-                  const Text(
-                    'Register now',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
+                  GestureDetector(
+                    onTap: onTap,
+                    child: const Text(
+                      'Login now',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),

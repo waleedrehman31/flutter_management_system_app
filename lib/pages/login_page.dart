@@ -3,11 +3,14 @@ import 'package:attandance_management_system/components/my_button.dart';
 import 'package:attandance_management_system/components/my_textfield.dart';
 
 class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
 
   // text editing controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  final void Function()? onTap;
+  
+  LoginPage({super.key, required this.onTap});
 
   // sign user in method
   void signUserIn() {}
@@ -80,6 +83,29 @@ class LoginPage extends StatelessWidget {
               // sign in button
               MyButton(
                 onTap: signUserIn,
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Not a member?',
+                    style: TextStyle(color: Colors.grey[700]),
+                  ),
+                  const SizedBox(width: 4),
+                  GestureDetector(
+                    onTap: onTap,
+                    child: const Text(
+                      'Register now',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
