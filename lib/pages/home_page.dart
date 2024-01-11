@@ -1,3 +1,4 @@
+import 'package:attandance_management_system/components/my_drawer.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -5,10 +6,11 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text("Home"),
       ),
+      drawer: MyDrawer(),
     );
   }
 }

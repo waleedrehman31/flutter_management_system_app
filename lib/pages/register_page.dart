@@ -1,3 +1,4 @@
+import 'package:attandance_management_system/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:attandance_management_system/components/my_button.dart';
 import 'package:attandance_management_system/components/my_textfield.dart';
@@ -6,7 +7,6 @@ class RegisterPage extends StatelessWidget {
   RegisterPage({super.key, required this.onTap});
 
   // text editing controllers
-  final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
@@ -14,7 +14,31 @@ class RegisterPage extends StatelessWidget {
   final void Function()? onTap;
 
   // sign user in method
-  void registerStudent() {}
+  void register(BuildContext context) {
+    // auth service
+    final authService = AuthService();
+    // if password match then create user
+    if (passwordController.text == confirmPasswordController.text) {
+      try {
+        authService.signUpWithEmailPassword(
+            emailController.text, passwordController.text);
+      } catch (e) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(e.toString()),
+          ),
+        );
+      }
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => const AlertDialog(
+          title: Text("password does not match"),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,15 +70,6 @@ class RegisterPage extends StatelessWidget {
               ),
 
               const SizedBox(height: 25),
-
-              // username textfield
-              MyTextField(
-                controller: usernameController,
-                hintText: 'Username',
-                obscureText: false,
-              ),
-
-              const SizedBox(height: 10),
 
               // username textfield
               MyTextField(
@@ -101,10 +116,8 @@ class RegisterPage extends StatelessWidget {
 
               // sign in button
               MyButton(
-                onTap: registerStudent,
+                onTap: () => register(context),
               ),
-
-              const SizedBox(height: 50),
 
               const SizedBox(
                 height: 50,

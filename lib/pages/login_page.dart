@@ -25,10 +25,11 @@ class LoginPage extends StatelessWidget {
     // catch any error
     catch (e) {
       showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                title: Text(e.toString()),
-              ));
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(e.toString()),
+        ),
+      );
     }
   }
 
