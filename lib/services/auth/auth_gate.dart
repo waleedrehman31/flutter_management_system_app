@@ -1,4 +1,4 @@
-import 'package:attandance_management_system/auth/login_or_register.dart';
+import 'package:attandance_management_system/services/auth/login_or_register.dart';
 import 'package:attandance_management_system/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

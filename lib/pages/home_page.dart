@@ -1,5 +1,8 @@
 import 'package:attandance_management_system/components/my_drawer.dart';
 import 'package:attandance_management_system/components/square_tile.dart';
+import 'package:attandance_management_system/pages/profile_page.dart';
+import 'package:attandance_management_system/pages/progress_page.dart';
+import 'package:attandance_management_system/services/attandance/attendance_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -12,6 +15,26 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String currentDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
+
+  void markAttandance() async {
+    Attandance attandance = Attandance();
+    try {
+      await attandance.markAttendance();
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Attandance Mark Successfully"),
+        ),
+      );
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(e.toString()),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +51,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SquareTile(
-                  onTap: () {},
+                  onTap: markAttandance,
                   icon: Icons.assignment_turned_in_sharp,
                   text: "Mark Attandance",
                   date: currentDate,
@@ -51,7 +74,14 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SquareTile(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProgressPage(),
+                      ),
+                    );
+                  },
                   icon: Icons.remove_red_eye_outlined,
                   text: "View Progress",
                   date: "",
@@ -60,9 +90,16 @@ class _HomePageState extends State<HomePage> {
                   width: 15,
                 ),
                 SquareTile(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProfilePage(),
+                      ),
+                    );
+                  },
                   icon: Icons.person_2_outlined,
-                  text: "P R O F I L E",
+                  text: "Profile",
                   date: "",
                 ),
               ],

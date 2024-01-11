@@ -1,4 +1,4 @@
-import 'package:attandance_management_system/auth/auth_service.dart';
+import 'package:attandance_management_system/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:attandance_management_system/components/my_button.dart';
 import 'package:attandance_management_system/components/my_textfield.dart';
