@@ -1,4 +1,4 @@
-import 'package:attandance_management_system/auth/login_or_register.dart';
+import 'package:attandance_management_system/auth/auth_gate.dart';
 import 'package:attandance_management_system/firebase_options.dart';
 import 'package:attandance_management_system/theme/light_mode.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: lightTheme,
       debugShowCheckedModeBanner: false,
-      home: LoginOrRegister(),
+      home: const AuthGate(),
     );
   }
 }
