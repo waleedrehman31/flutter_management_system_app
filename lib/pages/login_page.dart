@@ -1,3 +1,4 @@
+import 'package:attandance_management_system/components/my_alertdialog.dart';
 import 'package:attandance_management_system/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:attandance_management_system/components/my_button.dart';
@@ -13,23 +14,21 @@ class LoginPage extends StatelessWidget {
   LoginPage({super.key, required this.onTap});
 
   // sign user in method
-  void signUserIn(BuildContext context) async {
+  void signUserIn(BuildContext context) {
     // auth service
     final authService = AuthService();
 
     // try login
     try {
-      await authService.signInWithEmailPassword(
+      authService.signInWithEmailPassword(
           emailController.text, passwordController.text);
     }
     // catch any error
     catch (e) {
       showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text(e.toString()),
-        ),
-      );
+          context: context,
+          builder: (context) =>
+              MyAlertDialog(title: "Error", content: e.toString()));
     }
   }
 

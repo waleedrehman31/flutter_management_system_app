@@ -1,3 +1,4 @@
+import 'package:attandance_management_system/components/my_alertdialog.dart';
 import 'package:attandance_management_system/components/my_drawer.dart';
 import 'package:attandance_management_system/components/square_tile.dart';
 import 'package:attandance_management_system/pages/profile_page.dart';
@@ -16,23 +17,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String currentDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
-  void markAttandance() async {
+  void markAttandance() {
     Attandance attandance = Attandance();
     try {
-      await attandance.markAttendance();
+      attandance.markAttendance();
       showDialog(
-        context: context,
-        builder: (context) => const AlertDialog(
-          title: Text("Attandance Mark Successfully"),
-        ),
-      );
+          context: context,
+          builder: (context) => const MyAlertDialog(
+              title: "Successfull", content: "Attandance Mark Successfully"));
     } catch (e) {
       showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text(e.toString()),
-        ),
-      );
+          context: context,
+          builder: (context) =>
+              MyAlertDialog(title: "Error", content: e.toString()));
     }
   }
 

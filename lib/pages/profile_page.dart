@@ -1,3 +1,4 @@
+import 'package:attandance_management_system/components/my_alertdialog.dart';
 import 'package:attandance_management_system/components/my_button.dart';
 import 'package:attandance_management_system/components/my_textfield.dart';
 import 'package:attandance_management_system/services/profile/profile_service.dart';
@@ -36,8 +37,16 @@ class _ProfilePageState extends State<ProfilePage> {
     ProfileService service = ProfileService();
     try {
       service.updateUserInformation(nameController.text, emailController.text);
+      showDialog(
+          context: context,
+          builder: (context) => const MyAlertDialog(
+              title: "Successfull",
+              content: "Information Update Successfully"));
     } catch (e) {
-      print(e);
+      showDialog(
+          context: context,
+          builder: (context) =>
+              MyAlertDialog(title: "Error", content: e.toString()));
     }
   }
 

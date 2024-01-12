@@ -1,3 +1,4 @@
+import 'package:attandance_management_system/components/my_alertdialog.dart';
 import 'package:attandance_management_system/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:attandance_management_system/components/my_button.dart';
@@ -25,9 +26,7 @@ class RegisterPage extends StatelessWidget {
       } catch (e) {
         showDialog(
           context: context,
-          builder: (context) => AlertDialog(
-            title: Text(e.toString()),
-          ),
+          builder: (context) => MyAlertDialog(title: "Error", content: e.toString())
         );
       }
     } else {
