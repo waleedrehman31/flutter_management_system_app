@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
       await attandance.markAttendance();
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
+        builder: (context) => const AlertDialog(
           title: Text("Attandance Mark Successfully"),
         ),
       );
