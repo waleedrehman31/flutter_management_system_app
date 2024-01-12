@@ -18,6 +18,7 @@ class SquareTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        height: 160,
         width: 162,
         padding: const EdgeInsets.all(25),
         decoration: BoxDecoration(
@@ -25,19 +26,26 @@ class SquareTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           color: Colors.grey[200],
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              size: 40,
-            ),
-            const SizedBox(
-              height: 8.0,
-            ),
-            Text(text),
-            Text(date),
-          ],
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: 40,
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              Center(
+                child: Text(
+                  text,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Text(date),
+            ],
+          ),
         ),
         // child: Image.asset(
         //   imagePath,
