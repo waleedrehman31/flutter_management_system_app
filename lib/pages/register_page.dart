@@ -116,6 +116,7 @@ class RegisterPage extends StatelessWidget {
 
               // sign in button
               MyButton(
+                text: "Sign Up",
                 onTap: () => register(context),
               ),
 

@@ -14,7 +14,12 @@ class Attandance {
         String currentDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
         // Add attendance record to Firestore
-        await _firestore.collection('attendance').doc(user.uid).set({
+        await _firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('attandance')
+            .doc()
+            .set({
           'date': currentDate,
           'marked': true,
         });

@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCVEFvivXG7PolvqM4uHURbMhCPfmqddfI',
-    appId: '1:589710480543:android:1e4a7b741f23744b8a7eaa',
+    appId: '1:589710480543:android:84b3a269f519464b8a7eaa',
     messagingSenderId: '589710480543',
     projectId: 'attandancemanagment-5b974',
     storageBucket: 'attandancemanagment-5b974.appspot.com',
@@ -59,7 +59,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyASUutVxy8l-FR8B7oSqpY6YA_QrH5kEEI',
-    appId: '1:589710480543:ios:9e7177ab196a56028a7eaa',
+    appId: '1:589710480543:ios:6b9927e8e1b03dba8a7eaa',
     messagingSenderId: '589710480543',
     projectId: 'attandancemanagment-5b974',
     storageBucket: 'attandancemanagment-5b974.appspot.com',
