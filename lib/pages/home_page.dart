@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:attandance_management_system/components/my_alertdialog.dart';
 import 'package:attandance_management_system/components/my_drawer.dart';
 import 'package:attandance_management_system/components/square_tile.dart';
@@ -17,10 +19,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String currentDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
-  void markAttandance() {
+  void markAttandance() async {
     Attandance attandance = Attandance();
     try {
-      attandance.markAttendance();
+      await attandance.markAttendance();
       showDialog(
           context: context,
           builder: (context) => const MyAlertDialog(

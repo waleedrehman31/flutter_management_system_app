@@ -11,20 +11,32 @@ class Attandance {
       User? user = _auth.currentUser;
       if (user != null) {
         // Get the current date
-        String currentDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
-
-        // Add attendance record to Firestore
-        await _firestore
+        String date = DateFormat('dd-MM-yyyy').format(DateTime.now());
+        // Check if attendance for the current date already exists
+        DocumentSnapshot attendanceSnapshot = await _firestore
             .collection('users')
             .doc(user.uid)
-            .collection('attandance')
-            .doc()
-            .set({
-          'date': currentDate,
-          'marked': true,
-        });
+            .collection('attendance')
+            .doc(date)
+            .get();
+        if (attendanceSnapshot.exists) {
+          throw Exception('You have already marked attendance for today.');
+        } else {
+          await _firestore
+              .collection('users')
+              .doc(user.uid)
+              .collection('attendance')
+              .doc(date)
+              .set({
+            'date': date,
+            'time': "${DateTime.now().hour}:${DateTime.now().minute}",
+            'marked': true,
+          });
+        }
       }
     } on FirebaseException catch (e) {
+      throw Exception(e);
+    } on Exception catch (e) {
       throw Exception(e);
     }
   }
