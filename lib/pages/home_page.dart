@@ -6,6 +6,7 @@ import 'package:attandance_management_system/components/square_tile.dart';
 import 'package:attandance_management_system/pages/profile_page.dart';
 import 'package:attandance_management_system/pages/progress_page.dart';
 import 'package:attandance_management_system/services/attandance/attendance_service.dart';
+import 'package:attandance_management_system/services/leave/leave_services.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -27,6 +28,23 @@ class _HomePageState extends State<HomePage> {
           context: context,
           builder: (context) => const MyAlertDialog(
               title: "Successfull", content: "Attandance Mark Successfully"));
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) =>
+              MyAlertDialog(title: "Error", content: e.toString()));
+    }
+  }
+
+  void sendLeaveRequest() async {
+    LeaveService leaveService = LeaveService();
+    try {
+      await leaveService.sendLeaveRequest();
+      showDialog(
+          context: context,
+          builder: (context) => const MyAlertDialog(
+              title: "Successfull",
+              content: "Leave Request Send Successfully"));
     } catch (e) {
       showDialog(
           context: context,
@@ -59,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                   width: 15,
                 ),
                 SquareTile(
-                  onTap: () {},
+                  onTap: sendLeaveRequest,
                   icon: Icons.add,
                   text: "Leave Request",
                   date: currentDate,
