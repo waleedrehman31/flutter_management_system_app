@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfileService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   Future<List<UserInfo>> getUserInformation() async {
     try {
@@ -26,6 +28,10 @@ class ProfileService {
         await user.updateEmail(email);
         await user
             .updatePhotoURL("https://example.com/jane-q-user/profile.jpg");
+        await _firebaseFirestore.collection('users').doc(user.uid).update({
+          'name': name,
+          'email': email,
+        });
       }
     } on FirebaseException catch (e) {
       throw Exception(e);
