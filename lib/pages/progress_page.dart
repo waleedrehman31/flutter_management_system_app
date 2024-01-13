@@ -1,13 +1,14 @@
+import 'package:attandance_management_system/components/my_alertdialog.dart';
+import 'package:attandance_management_system/components/my_datatable.dart';
+import 'package:attandance_management_system/services/attandance/attendance_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class ProgressPage extends StatefulWidget {
-  const ProgressPage({super.key});
+class ProgressPage extends StatelessWidget {
+  ProgressPage({super.key});
 
-  @override
-  State<ProgressPage> createState() => _ProgressPageState();
-}
+  final Attandance _attandanceService = Attandance();
 
-class _ProgressPageState extends State<ProgressPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +24,44 @@ class _ProgressPageState extends State<ProgressPage> {
           ),
         ),
       ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: _buildProgessList(),
+      ),
+    );
+  }
+
+  Widget _buildProgessList() {
+    return StreamBuilder(
+      stream: _attandanceService.getUserAttandance(),
+      builder: ((context, snapshot) {
+        //error
+        if (snapshot.hasError) {
+          return MyAlertDialog(
+            title: "Error",
+            content: snapshot.error.toString(),
+          );
+        }
+
+        // loading ...
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Text("Loading ...");
+        }
+        var attendanceData = snapshot.data!.docs;
+        // list
+        return MyDataTable(
+          rows: attendanceData
+              .map(
+                (record) => DataRow(
+                  cells: [
+                    DataCell(Text(record['date'])),
+                    DataCell(Text(record['status'].toString())),
+                  ],
+                ),
+              )
+              .toList(),
+        );
+      }),
     );
   }
 }

@@ -16,7 +16,7 @@ class Attandance {
         DocumentSnapshot attendanceSnapshot = await _firestore
             .collection('users')
             .doc(user.uid)
-            .collection('attendance')
+            .collection('attandance')
             .doc(date)
             .get();
         if (attendanceSnapshot.exists) {
@@ -25,11 +25,12 @@ class Attandance {
           await _firestore
               .collection('users')
               .doc(user.uid)
-              .collection('attendance')
+              .collection('attandance')
               .doc(date)
               .set({
             'date': date,
             'time': "${DateTime.now().hour}:${DateTime.now().minute}",
+            'status': 'Present',
             'marked': true,
           });
         }
@@ -39,5 +40,14 @@ class Attandance {
     } on Exception catch (e) {
       throw Exception(e);
     }
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getUserAttandance() {
+    User? user = _auth.currentUser;
+    return _firestore
+        .collection('users')
+        .doc(user!.uid)
+        .collection('attandance')
+        .snapshots();
   }
 }

@@ -16,20 +16,22 @@ class LeaveService {
         DocumentSnapshot attendanceSnapshot = await _firestore
             .collection('users')
             .doc(user.uid)
-            .collection('leave')
+            .collection('attandance')
             .doc(date)
             .get();
         if (attendanceSnapshot.exists) {
-          throw Exception('You have already send request for today\'s leave.');
+          throw Exception(
+              'You have already send request for today\'s leave. Or You Mark Attandance Today.');
         } else {
           await _firestore
               .collection('users')
               .doc(user.uid)
-              .collection('leave')
+              .collection('attandance')
               .doc(date)
               .set({
             'date': date,
             'time': "${DateTime.now().hour}:${DateTime.now().minute}",
+            'status': 'Leave',
             'approved': false,
           });
         }
