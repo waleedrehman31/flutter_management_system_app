@@ -1,19 +1,18 @@
 import 'package:attandance_management_system/components/my_alertdialog.dart';
 import 'package:attandance_management_system/components/my_datatable.dart';
-import 'package:attandance_management_system/services/attandance/attendance_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:attandance_management_system/services/leave/leave_services.dart';
 import 'package:flutter/material.dart';
 
-class ProgressPage extends StatelessWidget {
-  ProgressPage({super.key});
+class LeaveRequestPage extends StatelessWidget {
+  LeaveRequestPage({super.key});
 
-  final Attandance _attandanceService = Attandance();
+  final LeaveService _leaveService = LeaveService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Progess"),
+        title: const Text("All User Attandance"),
         leading: InkWell(
           onTap: () {
             Navigator.pop(context);
@@ -32,8 +31,8 @@ class ProgressPage extends StatelessWidget {
   }
 
   Widget _buildProgessList() {
-    return StreamBuilder(
-      stream: _attandanceService.getUserAttandance(),
+    return FutureBuilder(
+      future: _leaveService.getLeaveRequests(),
       builder: ((context, snapshot) {
         //error
         if (snapshot.hasError) {
@@ -47,23 +46,32 @@ class ProgressPage extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Text("Loading ...");
         }
-        var attendanceData = snapshot.data!.docs;
-        // list
         return MyDataTable(
           cols: const [
             DataColumn(
-              label: Text('Date'),
+              label: Text('id'),
             ),
             DataColumn(
               label: Text('Status'),
             ),
+            DataColumn(
+              label: Text('Action'),
+            ),
           ],
-          rows: attendanceData
+          rows: snapshot.data!
               .map(
                 (record) => DataRow(
                   cells: [
-                    DataCell(Text(record['date'])),
-                    DataCell(Text(record['status'].toString())),
+                    DataCell(Text(record['id'])),
+                    DataCell(Text(record['status'])),
+                    DataCell(
+                      ElevatedButton(
+                        onPressed: () {
+                          // Implement logic to approve leave request
+                        },
+                        child: Text('Approve'),
+                      ),
+                    ),
                   ],
                 ),
               )

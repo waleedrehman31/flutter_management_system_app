@@ -32,6 +32,7 @@ class Attandance {
             'time': "${DateTime.now().hour}:${DateTime.now().minute}",
             'status': 'Present',
             'marked': true,
+            'approved': true,
           });
         }
       }

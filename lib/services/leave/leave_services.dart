@@ -32,6 +32,7 @@ class LeaveService {
             'date': date,
             'time': "${DateTime.now().hour}:${DateTime.now().minute}",
             'status': 'Leave',
+            'marked': true,
             'approved': false,
           });
         }
@@ -39,6 +40,36 @@ class LeaveService {
     } on FirebaseException catch (e) {
       throw Exception(e);
     } on Exception catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getLeaveRequests() async {
+    try {
+      var allLeaveRequest = <Map<String, dynamic>>[];
+      QuerySnapshot users = await _firestore.collection('users').get();
+      for (QueryDocumentSnapshot user in users.docs) {
+        if (user.get('role') != "admin") {
+          QuerySnapshot attandance = await _firestore
+              .collection('users')
+              .doc(user.id)
+              .collection('attandance')
+              .get();
+          for (QueryDocumentSnapshot data in attandance.docs) {
+            if (data.get('approved') == false) {
+              allLeaveRequest.add({
+                'id': data.id,
+                'date': data.get('date'),
+                'status': data.get('status'),
+                'marked': data.get('marked'),
+                'approved': data.get('approved'),
+              });
+            }
+          }
+        }
+      }
+      return allLeaveRequest;
+    } on FirebaseException catch (e) {
       throw Exception(e);
     }
   }
