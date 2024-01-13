@@ -1,5 +1,5 @@
-import 'package:attandance_management_system/pages/login_page.dart';
-import 'package:attandance_management_system/pages/register_page.dart';
+import 'package:attandance_management_system/pages/auth/login_page.dart';
+import 'package:attandance_management_system/pages/auth/register_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginOrRegister extends StatefulWidget {
