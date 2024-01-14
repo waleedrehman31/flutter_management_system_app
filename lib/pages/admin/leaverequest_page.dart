@@ -1,18 +1,39 @@
 import 'package:attandance_management_system/components/my_alertdialog.dart';
-import 'package:attandance_management_system/components/my_datatable.dart';
+import 'package:attandance_management_system/components/my_card.dart';
 import 'package:attandance_management_system/services/leave/leave_services.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class LeaveRequestPage extends StatelessWidget {
+class LeaveRequestPage extends StatefulWidget {
   LeaveRequestPage({super.key});
 
+  @override
+  State<LeaveRequestPage> createState() => _LeaveRequestPageState();
+}
+
+class _LeaveRequestPageState extends State<LeaveRequestPage> {
   final LeaveService _leaveService = LeaveService();
+
+  void acceptLeaveRequest(String userUid, leaveUid) {
+    try {
+      _leaveService.acceptLeaveRequest(userUid, leaveUid);
+      showDialog(
+          context: context,
+          builder: (context) => const MyAlertDialog(
+              title: "Error", content: "Leave Approved Successfully"));
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) =>
+              MyAlertDialog(title: "Error", content: e.toString()));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("All User Attandance"),
+        title: const Text("Leave Requests"),
         leading: InkWell(
           onTap: () {
             Navigator.pop(context);
@@ -24,8 +45,11 @@ class LeaveRequestPage extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: _buildProgessList(),
+        padding: const EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: _buildProgessList(),
+        ),
       ),
     );
   }
@@ -46,33 +70,17 @@ class LeaveRequestPage extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Text("Loading ...");
         }
-        return MyDataTable(
-          cols: const [
-            DataColumn(
-              label: Text('id'),
-            ),
-            DataColumn(
-              label: Text('Status'),
-            ),
-            DataColumn(
-              label: Text('Action'),
-            ),
-          ],
-          rows: snapshot.data!
+        if (snapshot.data!.isEmpty) {
+          return const Text("No Leave Request Pending.");
+        }
+        return Column(
+          children: snapshot.data!
               .map(
-                (record) => DataRow(
-                  cells: [
-                    DataCell(Text(record['id'])),
-                    DataCell(Text(record['status'])),
-                    DataCell(
-                      ElevatedButton(
-                        onPressed: () {
-                          // Implement logic to approve leave request
-                        },
-                        child: Text('Approve'),
-                      ),
-                    ),
-                  ],
+                (record) => MyCard(
+                  name: record['name'],
+                  date: record['date'],
+                  onPressed: () =>
+                      acceptLeaveRequest(record['userUid'], record['leaveUid']),
                 ),
               )
               .toList(),

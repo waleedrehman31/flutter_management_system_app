@@ -58,7 +58,9 @@ class LeaveService {
           for (QueryDocumentSnapshot data in attandance.docs) {
             if (data.get('approved') == false) {
               allLeaveRequest.add({
-                'id': data.id,
+                'leaveUid': data.id,
+                'userUid': user.id,
+                'name': user.get('name'),
                 'date': data.get('date'),
                 'status': data.get('status'),
                 'marked': data.get('marked'),
@@ -69,6 +71,21 @@ class LeaveService {
         }
       }
       return allLeaveRequest;
+    } on FirebaseException catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  void acceptLeaveRequest(String userUid, leaveUid) async {
+    try {
+      await _firestore
+          .collection('users')
+          .doc(userUid)
+          .collection('attandance')
+          .doc(leaveUid)
+          .update({
+        'approved': true,
+      });
     } on FirebaseException catch (e) {
       throw Exception(e);
     }

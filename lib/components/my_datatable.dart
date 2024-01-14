@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 class MyDataTable extends StatelessWidget {
@@ -17,9 +19,12 @@ class MyDataTable extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(5.0),
-          child: DataTable(
-            columns: cols,
-            rows: rows,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: DataTable(
+              columns: cols,
+              rows: rows,
+            ),
           ),
         ),
       ),
