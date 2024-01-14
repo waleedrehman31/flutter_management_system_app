@@ -1,11 +1,10 @@
 import 'package:attandance_management_system/components/my_alertdialog.dart';
 import 'package:attandance_management_system/components/my_card.dart';
 import 'package:attandance_management_system/services/leave/leave_services.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class LeaveRequestPage extends StatefulWidget {
-  LeaveRequestPage({super.key});
+  const LeaveRequestPage({super.key});
 
   @override
   State<LeaveRequestPage> createState() => _LeaveRequestPageState();

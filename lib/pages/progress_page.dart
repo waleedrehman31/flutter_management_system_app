@@ -1,7 +1,6 @@
 import 'package:attandance_management_system/components/my_alertdialog.dart';
 import 'package:attandance_management_system/components/my_datatable.dart';
 import 'package:attandance_management_system/services/attandance/attendance_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ProgressPage extends StatelessWidget {
