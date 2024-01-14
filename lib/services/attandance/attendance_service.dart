@@ -51,4 +51,34 @@ class Attandance {
         .collection('attandance')
         .snapshots();
   }
+
+  Future<List<Map<String, dynamic>>> getAllAttandance() async {
+    try {
+      var allAttandance = <Map<String, dynamic>>[];
+      QuerySnapshot users = await _firestore.collection('users').get();
+      for (QueryDocumentSnapshot user in users.docs) {
+        if (user.get('role') != "admin") {
+          QuerySnapshot attandance = await _firestore
+              .collection('users')
+              .doc(user.id)
+              .collection('attandance')
+              .get();
+          for (QueryDocumentSnapshot data in attandance.docs) {
+            allAttandance.add({
+              'attandanceUid': data.id,
+              'userUid': user.id,
+              'name': user.get('name'),
+              'date': data.get('date'),
+              'status': data.get('status'),
+              'marked': data.get('marked'),
+              'approved': data.get('approved'),
+            });
+          }
+        }
+      }
+      return allAttandance;
+    } on FirebaseException catch (e) {
+      throw Exception(e);
+    }
+  }
 }
