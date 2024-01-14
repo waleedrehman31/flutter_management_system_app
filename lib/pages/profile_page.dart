@@ -1,8 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:io';
+
 import 'package:attandance_management_system/components/my_alertdialog.dart';
 import 'package:attandance_management_system/components/my_button.dart';
 import 'package:attandance_management_system/components/my_textfield.dart';
 import 'package:attandance_management_system/services/profile/profile_service.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -15,11 +21,13 @@ class _ProfilePageState extends State<ProfilePage> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
+  String profilePhoto = "";
+  String? photoUrl = "";
 
   @override
   void initState() {
-    super.initState();
     getuserDetail();
+    super.initState();
   }
 
   void getuserDetail() async {
@@ -29,14 +37,38 @@ class _ProfilePageState extends State<ProfilePage> {
       // Name, email address, and profile photo URL
       nameController.text = providerProfile.displayName.toString();
       emailController.text = providerProfile.email.toString();
-      // final profilePhoto = providerProfile.photoURL;
+      setState(() {
+        profilePhoto = providerProfile.photoURL.toString();
+      });
+    }
+  }
+
+  uploadImage() async {
+    final imagePicker = ImagePicker();
+    XFile? image;
+    await Permission.photos.request();
+    var permissionStatus = await Permission.photos.status;
+    if (permissionStatus.isGranted) {
+      image = await imagePicker.pickImage(source: ImageSource.gallery);
+      File file = File(image!.path);
+      String imageName = image.name;
+      photoUrl = (await ProfileService().getImageUrl(file, imageName))!;
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) => const MyAlertDialog(
+              title: "Error",
+              content:
+                  "Permission not granted. Try Again with permission access"));
     }
   }
 
   void saveUserDetail() async {
     ProfileService service = ProfileService();
+    //Check Permission
     try {
-      service.updateUserInformation(nameController.text, emailController.text);
+      service.updateUserInformation(
+          nameController.text, emailController.text, photoUrl);
       showDialog(
           context: context,
           builder: (context) => const MyAlertDialog(
@@ -69,10 +101,20 @@ class _ProfilePageState extends State<ProfilePage> {
         padding: const EdgeInsets.all(25.0),
         child: Column(
           children: [
-            const CircleAvatar(
+            CircleAvatar(
               radius: 120.0,
-              backgroundImage: NetworkImage(
-                  "https://static.vecteezy.com/system/resources/previews/004/476/164/original/young-man-avatar-character-icon-free-vector.jpg"),
+              // backgroundImage: NetworkImage(profilePhoto),
+              backgroundImage: (profilePhoto == "")
+                  ? const NetworkImage(
+                      'https://static.vecteezy.com/system/resources/previews/004/476/164/original/young-man-avatar-character-icon-free-vector.jpg')
+                  : NetworkImage(profilePhoto),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            ElevatedButton(
+              onPressed: uploadImage,
+              child: const Text("Upload Profile Image"),
             ),
             const SizedBox(
               height: 15,
