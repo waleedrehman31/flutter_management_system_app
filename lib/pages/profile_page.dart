@@ -53,6 +53,9 @@ class _ProfilePageState extends State<ProfilePage> {
       File file = File(image!.path);
       String imageName = image.name;
       photoUrl = (await ProfileService().getImageUrl(file, imageName))!;
+      setState(() {
+        profilePhoto = photoUrl.toString();
+      });
     } else {
       showDialog(
           context: context,
@@ -68,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
     //Check Permission
     try {
       service.updateUserInformation(
-          nameController.text, emailController.text, photoUrl);
+          nameController.text, emailController.text, profilePhoto);
       showDialog(
           context: context,
           builder: (context) => const MyAlertDialog(
