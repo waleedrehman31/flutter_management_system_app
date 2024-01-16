@@ -2,6 +2,7 @@
 import 'package:attandance_management_system/components/my_drawer.dart';
 import 'package:attandance_management_system/components/square_tile.dart';
 import 'package:attandance_management_system/pages/admin/attandance_page.dart';
+import 'package:attandance_management_system/pages/admin/grade_page.dart';
 import 'package:attandance_management_system/pages/admin/leaverequest_page.dart';
 import 'package:attandance_management_system/pages/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -68,15 +69,15 @@ class _AdminHomePageState extends State<AdminHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SquareTile(
-                  onTap: () {},
-                  // onTap: () {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //       builder: (context) => GradePage(),
-                  //     ),
-                  //   );
-                  // },
+                  // onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GradeSystemPage(),
+                      ),
+                    );
+                  },
                   icon: Icons.receipt_long_rounded,
                   text: "Grade Report",
                   date: "",
