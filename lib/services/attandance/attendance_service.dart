@@ -81,4 +81,24 @@ class Attandance {
       throw Exception(e);
     }
   }
+
+  Future<void> generateUserAttendanceReport(fromDate, toDate) async {
+    try {
+      QuerySnapshot userAttendanceSnapshot = await _firestore
+          .collection('attendance')
+          .where('date', isGreaterThanOrEqualTo: fromDate!.toIso8601String())
+          .where('date', isLessThanOrEqualTo: toDate!.toIso8601String())
+          .get();
+
+      // Process the user attendance data as needed
+
+      // Display or export the user attendance report based on your requirements
+      print('User Attendance Report Generated:');
+      print('From Date: ${fromDate!.toIso8601String()}');
+      print('To Date: ${toDate!.toIso8601String()}');
+      print('User Attendance Data: ${userAttendanceSnapshot.docs}');
+    } catch (e) {
+      print('Error generating user attendance report: $e');
+    }
+  }
 }

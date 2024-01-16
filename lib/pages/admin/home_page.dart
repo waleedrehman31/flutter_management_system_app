@@ -4,6 +4,7 @@ import 'package:attandance_management_system/components/square_tile.dart';
 import 'package:attandance_management_system/pages/admin/attandance_page.dart';
 import 'package:attandance_management_system/pages/admin/grade_page.dart';
 import 'package:attandance_management_system/pages/admin/leaverequest_page.dart';
+import 'package:attandance_management_system/pages/admin/report_page.dart';
 import 'package:attandance_management_system/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 
@@ -74,17 +75,38 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => GradeSystemPage(),
+                        builder: (context) => const GradeSystemPage(),
                       ),
                     );
                   },
-                  icon: Icons.receipt_long_rounded,
-                  text: "Grade Report",
+                  icon: Icons.settings_applications_rounded,
+                  text: "Grade Setting",
                   date: "",
                 ),
                 const SizedBox(
                   width: 15,
                 ),
+                SquareTile(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ReportPage(),
+                      ),
+                    );
+                  },
+                  icon: Icons.receipt_long,
+                  text: "Grade Report",
+                  date: "",
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
                 SquareTile(
                   onTap: () {
                     Navigator.push(
