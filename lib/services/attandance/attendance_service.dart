@@ -82,23 +82,53 @@ class Attandance {
     }
   }
 
-  Future<void> generateUserAttendanceReport(fromDate, toDate) async {
+  Future<List<Map<String, dynamic>>> getAllUsers() async {
+    try {
+      var allUsers = <Map<String, dynamic>>[];
+      QuerySnapshot users = await _firestore.collection('users').get();
+      for (QueryDocumentSnapshot user in users.docs) {
+        if (user.get('role') != "admin") {
+          allUsers.add({
+            'userUid': user.id,
+            'name': user.get('name'),
+          });
+        }
+      }
+      return allUsers;
+    } on FirebaseException catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> generateUserAttendanceReport(fromDate, toDate, userUid) async {
+    String fDate = DateFormat('dd-MM-yyyy').format(fromDate);
+    String tDate = DateFormat('dd-MM-yyyy').format(toDate);
+    var allAttandance = <Map<String, dynamic>>[];
     try {
       QuerySnapshot userAttendanceSnapshot = await _firestore
-          .collection('attendance')
-          .where('date', isGreaterThanOrEqualTo: fromDate!.toIso8601String())
-          .where('date', isLessThanOrEqualTo: toDate!.toIso8601String())
+          .collection('users')
+          .doc(userUid)
+          .collection('attandance')
+          .where('date', isGreaterThanOrEqualTo: fDate)
+          .where('date', isLessThanOrEqualTo: tDate)
           .get();
 
       // Process the user attendance data as needed
-
-      // Display or export the user attendance report based on your requirements
-      print('User Attendance Report Generated:');
-      print('From Date: ${fromDate!.toIso8601String()}');
-      print('To Date: ${toDate!.toIso8601String()}');
-      print('User Attendance Data: ${userAttendanceSnapshot.docs}');
-    } catch (e) {
-      print('Error generating user attendance report: $e');
+      for (QueryDocumentSnapshot data in userAttendanceSnapshot.docs) {
+        allAttandance.add({
+          'attandanceUid': data.id,
+          // 'userUid': user.id,
+          // 'name': user.get('name'),
+          'date': data.get('date'),
+          'status': data.get('status'),
+          'marked': data.get('marked'),
+          'approved': data.get('approved'),
+        });
+      }
+      return allAttandance;
+    } on FirebaseException catch (e) {
+      throw Exception(e);
+    
     }
   }
 }

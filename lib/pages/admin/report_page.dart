@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:attandance_management_system/components/my_button.dart';
 import 'package:attandance_management_system/services/attandance/attendance_service.dart';
 import 'package:flutter/material.dart';
 
 class ReportPage extends StatefulWidget {
+  const ReportPage({super.key});
+
   @override
   ReportPageState createState() => ReportPageState();
 }
@@ -10,12 +14,28 @@ class ReportPage extends StatefulWidget {
 class ReportPageState extends State<ReportPage> {
   DateTime? fromDate;
   DateTime? toDate;
-  List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+  late var users = [];
+  String dropdownValue = "Select User";
+  final Attandance _attandanceService = Attandance();
+
+  @override
+  void initState() {
+    getUsers();
+    super.initState();
+  }
+
+  void getUsers() async {
+    final response = await _attandanceService.getAllUsers();
+    setState(() {
+      users = response;
+    });
+  }
 
   void generateReport() async {
     Attandance attandance = Attandance();
     if (fromDate != null && toDate != null) {
-      await attandance.generateUserAttendanceReport(fromDate, toDate);
+      await attandance.generateUserAttendanceReport(
+          fromDate, toDate, dropdownValue);
     } else {
       // Show an error message or alert if dates are not selected
       showDialog(
@@ -40,7 +60,6 @@ class ReportPageState extends State<ReportPage> {
 
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = list.first;
     return Scaffold(
       appBar: AppBar(
         title: const Text('User Attendance Report'),
@@ -54,7 +73,8 @@ class ReportPageState extends State<ReportPage> {
               height: 10,
             ),
             DropdownMenu(
-              initialSelection: list.first,
+              width: 220.0,
+              initialSelection: "Select User",
               onSelected: (String? value) {
                 // This is called when the user selects an item.
                 setState(() {
@@ -62,11 +82,12 @@ class ReportPageState extends State<ReportPage> {
                 });
               },
               dropdownMenuEntries:
-                  list.map<DropdownMenuEntry<String>>((String value) {
-                return DropdownMenuEntry<String>(value: value, label: value);
+                  users.map<DropdownMenuEntry<String>>((value) {
+                return DropdownMenuEntry<String>(
+                    value: value['userUid'], label: value['name']);
               }).toList(),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
