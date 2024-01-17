@@ -13,7 +13,7 @@ class GradeSystemService {
           'a_grade': data.get('a_grade'),
           'b_grade': data.get('b_grade'),
           'c_grade': data.get('c_grade'),
-          'd-grade': data.get('d_grade'),
+          'd_grade': data.get('d_grade'),
         });
       }
       return allGrades;

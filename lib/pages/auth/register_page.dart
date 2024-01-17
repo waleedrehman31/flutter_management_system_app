@@ -25,9 +25,9 @@ class RegisterPage extends StatelessWidget {
             emailController.text, passwordController.text);
       } catch (e) {
         showDialog(
-          context: context,
-          builder: (context) => MyAlertDialog(title: "Error", content: e.toString())
-        );
+            context: context,
+            builder: (context) =>
+                MyAlertDialog(title: "Error", content: e.toString()));
       }
     } else {
       showDialog(
@@ -43,106 +43,108 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 50),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 50),
 
-              // logo
-              Icon(
-                Icons.lock,
-                size: 100,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-
-              const SizedBox(height: 50),
-
-              // welcome back, you've been missed!
-              Text(
-                'Register Now',
-                style: TextStyle(
-                  color: Colors.grey[700],
-                  fontSize: 16,
+                // logo
+                Icon(
+                  Icons.lock,
+                  size: 100,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
-              ),
 
-              const SizedBox(height: 25),
+                const SizedBox(height: 50),
 
-              // username textfield
-              MyTextField(
-                controller: emailController,
-                hintText: 'Email',
-                obscureText: false,
-              ),
+                // welcome back, you've been missed!
+                Text(
+                  'Register Now',
+                  style: TextStyle(
+                    color: Colors.grey[700],
+                    fontSize: 16,
+                  ),
+                ),
 
-              const SizedBox(height: 10),
+                const SizedBox(height: 25),
 
-              // password textfield
-              MyTextField(
-                controller: passwordController,
-                hintText: 'Password',
-                obscureText: true,
-              ),
+                // username textfield
+                MyTextField(
+                  controller: emailController,
+                  hintText: 'Email',
+                  obscureText: false,
+                ),
 
-              const SizedBox(height: 10),
+                const SizedBox(height: 10),
 
-              // password textfield
-              MyTextField(
-                controller: confirmPasswordController,
-                hintText: 'confirm Password',
-                obscureText: true,
-              ),
+                // password textfield
+                MyTextField(
+                  controller: passwordController,
+                  hintText: 'Password',
+                  obscureText: true,
+                ),
 
-              const SizedBox(height: 10),
+                const SizedBox(height: 10),
 
-              // forgot password?
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                // password textfield
+                MyTextField(
+                  controller: confirmPasswordController,
+                  hintText: 'confirm Password',
+                  obscureText: true,
+                ),
+
+                const SizedBox(height: 10),
+
+                // forgot password?
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Forgot Password?',
+                        style: TextStyle(color: Colors.grey[600]),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 25),
+
+                // sign in button
+                MyButton(
+                  text: "Sign Up",
+                  onTap: () => register(context),
+                ),
+
+                const SizedBox(
+                  height: 50,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Forgot Password?',
-                      style: TextStyle(color: Colors.grey[600]),
+                      'Already have an account?',
+                      style: TextStyle(color: Colors.grey[700]),
+                    ),
+                    const SizedBox(width: 4),
+                    GestureDetector(
+                      onTap: onTap,
+                      child: const Text(
+                        'Login now',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ],
                 ),
-              ),
-
-              const SizedBox(height: 25),
-
-              // sign in button
-              MyButton(
-                text: "Sign Up",
-                onTap: () => register(context),
-              ),
-
-              const SizedBox(
-                height: 50,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Already have an account?',
-                    style: TextStyle(color: Colors.grey[700]),
-                  ),
-                  const SizedBox(width: 4),
-                  GestureDetector(
-                    onTap: onTap,
-                    child: const Text(
-                      'Login now',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

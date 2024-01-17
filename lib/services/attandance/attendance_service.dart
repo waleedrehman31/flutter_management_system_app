@@ -100,11 +100,17 @@ class Attandance {
     }
   }
 
-  Future<List<Map<String, dynamic>>> generateUserAttendanceReport(fromDate, toDate, userUid) async {
+  Future<List<Map<String, dynamic>>> generateUserAttendanceReport(
+      fromDate, toDate, userUid) async {
     String fDate = DateFormat('dd-MM-yyyy').format(fromDate);
     String tDate = DateFormat('dd-MM-yyyy').format(toDate);
+    String grade = "";
     var allAttandance = <Map<String, dynamic>>[];
     try {
+      DocumentSnapshot<Map<String, dynamic>> userDetail =
+          await _firestore.collection('users').doc(userUid).get();
+      DocumentSnapshot<Map<String, dynamic>> getGrade =
+          await _firestore.collection('config').doc('grades').get();
       QuerySnapshot userAttendanceSnapshot = await _firestore
           .collection('users')
           .doc(userUid)
@@ -112,23 +118,32 @@ class Attandance {
           .where('date', isGreaterThanOrEqualTo: fDate)
           .where('date', isLessThanOrEqualTo: tDate)
           .get();
-
+      if (userAttendanceSnapshot.size >= getGrade.get("a_grade")) {
+        grade = "A Grade";
+      } else if (userAttendanceSnapshot.size >= getGrade.get("b_grade") &&
+          userAttendanceSnapshot.size <= getGrade.get("a_grade")) {
+        grade = "B Grade";
+      } else if (userAttendanceSnapshot.size >= getGrade.get("c_grade") &&
+          userAttendanceSnapshot.size <= getGrade.get("b_grade")) {
+        grade = "C Grade";
+      } else {
+        grade = "D Grade";
+      }
       // Process the user attendance data as needed
       for (QueryDocumentSnapshot data in userAttendanceSnapshot.docs) {
         allAttandance.add({
           'attandanceUid': data.id,
-          // 'userUid': user.id,
-          // 'name': user.get('name'),
+          'name': userDetail.get('name'),
           'date': data.get('date'),
           'status': data.get('status'),
           'marked': data.get('marked'),
           'approved': data.get('approved'),
+          'grade': grade
         });
       }
       return allAttandance;
     } on FirebaseException catch (e) {
       throw Exception(e);
-    
     }
   }
 }

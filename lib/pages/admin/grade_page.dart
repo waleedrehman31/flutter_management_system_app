@@ -76,57 +76,59 @@ class GradeSystemPageState extends State<GradeSystemPage> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            const Text(
-              "Configure Grade System",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              const Text(
+                "Configure Grade System",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            MyTextField(
-              label: "A Grade",
-              controller: aGradeController,
-              hintText: "A Grade (e.g., 26 days or more)",
-              obscureText: false,
-              keybordType: TextInputType.number,
-            ),
-            const SizedBox(height: 10),
-            MyTextField(
-              label: "B Grade",
-              controller: bGradeController,
-              hintText: "B Grade (e.g., 20 - 25 days)",
-              obscureText: false,
-              keybordType: TextInputType.number,
-            ),
-            const SizedBox(height: 10),
-            MyTextField(
-              label: "C Grade",
-              controller: cGradeController,
-              hintText: "C Grade (e.g., 15 - 19 days)",
-              obscureText: false,
-              keybordType: TextInputType.number,
-            ),
-            const SizedBox(height: 10),
-            MyTextField(
-              label: "D Grade",
-              controller: dGradeController,
-              hintText: "D Grade (e.g., 10 - 14 days)",
-              obscureText: false,
-              keybordType: TextInputType.number,
-            ),
-            const SizedBox(height: 20),
-            MyButton(
-              onTap: saveGrades,
-              text: "Saving Grade System",
-            ),
-          ],
+              const SizedBox(
+                height: 10,
+              ),
+              MyTextField(
+                label: "A Grade",
+                controller: aGradeController,
+                hintText: "A Grade (e.g., 26 days or more)",
+                obscureText: false,
+                keybordType: TextInputType.number,
+              ),
+              const SizedBox(height: 10),
+              MyTextField(
+                label: "B Grade",
+                controller: bGradeController,
+                hintText: "B Grade (e.g., 20 - 25 days)",
+                obscureText: false,
+                keybordType: TextInputType.number,
+              ),
+              const SizedBox(height: 10),
+              MyTextField(
+                label: "C Grade",
+                controller: cGradeController,
+                hintText: "C Grade (e.g., 15 - 19 days)",
+                obscureText: false,
+                keybordType: TextInputType.number,
+              ),
+              const SizedBox(height: 10),
+              MyTextField(
+                label: "D Grade",
+                controller: dGradeController,
+                hintText: "D Grade (e.g., 10 - 14 days)",
+                obscureText: false,
+                keybordType: TextInputType.number,
+              ),
+              const SizedBox(height: 20),
+              MyButton(
+                onTap: saveGrades,
+                text: "Saving Grade System",
+              ),
+            ],
+          ),
         ),
       ),
     );
