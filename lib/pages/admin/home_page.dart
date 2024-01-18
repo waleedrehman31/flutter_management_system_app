@@ -91,7 +91,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ReportPage(),
+                        builder: (context) => const ReportPage(),
                       ),
                     );
                   },

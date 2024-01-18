@@ -100,46 +100,48 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(25.0),
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 120.0,
-              // backgroundImage: NetworkImage(profilePhoto),
-              backgroundImage: (profilePhoto == "")
-                  ? const NetworkImage(
-                      'https://static.vecteezy.com/system/resources/previews/004/476/164/original/young-man-avatar-character-icon-free-vector.jpg')
-                  : NetworkImage(profilePhoto),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            ElevatedButton(
-              onPressed: uploadImage,
-              child: const Text("Upload Profile Image"),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            MyTextField(
-              controller: nameController,
-              hintText: 'Name',
-              obscureText: false,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            MyTextField(
-              controller: emailController,
-              hintText: 'Email',
-              obscureText: false,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            MyButton(text: "Save", onTap: saveUserDetail),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(25.0),
+          child: Column(
+            children: [
+              CircleAvatar(
+                radius: 120.0,
+                // backgroundImage: NetworkImage(profilePhoto),
+                backgroundImage: (profilePhoto == null)
+                    ? const NetworkImage(
+                        'https://static.vecteezy.com/system/resources/previews/004/476/164/original/young-man-avatar-character-icon-free-vector.jpg')
+                    : NetworkImage(profilePhoto),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              ElevatedButton(
+                onPressed: uploadImage,
+                child: const Text("Upload Profile Image"),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              MyTextField(
+                controller: nameController,
+                hintText: 'Name',
+                obscureText: false,
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              MyTextField(
+                controller: emailController,
+                hintText: 'Email',
+                obscureText: false,
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              MyButton(text: "Save", onTap: saveUserDetail),
+            ],
+          ),
         ),
       ),
     );

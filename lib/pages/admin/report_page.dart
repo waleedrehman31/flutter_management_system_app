@@ -4,7 +4,6 @@ import 'dart:async';
 
 import 'package:attandance_management_system/components/my_alertdialog.dart';
 import 'package:attandance_management_system/components/my_button.dart';
-import 'package:attandance_management_system/components/my_card.dart';
 import 'package:attandance_management_system/services/attandance/attendance_service.dart';
 import 'package:flutter/material.dart';
 
